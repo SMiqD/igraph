@@ -30,12 +30,14 @@
 #include <limits.h>
 
 static igraph_error_t igraph_i_personalized_pagerank_arpack(const igraph_t *graph,
-                                                 igraph_vector_t *vector,
-                                                 igraph_real_t *value, const igraph_vs_t vids,
-                                                 igraph_bool_t directed, igraph_real_t damping,
-                                                 const igraph_vector_t *reset,
-                                                 const igraph_vector_t *weights,
-                                                 igraph_arpack_options_t *options);
+    igraph_pagerank_algo_t algo,
+    igraph_vector_t *vector,
+    igraph_real_t *value,
+    const igraph_vs_t vids,
+    igraph_neimode_t mode, // New type
+    igraph_real_t damping,
+    const igraph_vector_t *weights,
+    igraph_arpack_options_t *options);
 
 typedef struct {
     const igraph_t *graph;
@@ -277,11 +279,16 @@ static igraph_error_t pagerank_operator_weighted(igraph_real_t *to, const igraph
  * \example examples/simple/igraph_pagerank.c
  */
 
-igraph_error_t igraph_pagerank(const igraph_t *graph, igraph_pagerank_algo_t algo,
-                    igraph_vector_t *vector,
-                    igraph_real_t *value, const igraph_vs_t vids,
-                    igraph_bool_t directed, igraph_real_t damping,
-                    const igraph_vector_t *weights, igraph_arpack_options_t *options) {
+//Updated
+igraph_error_t igraph_pagerank(const igraph_t *graph,
+    igraph_pagerank_algo_t algo,
+    igraph_vector_t *vector,
+    igraph_real_t *value,
+    const igraph_vs_t vids,
+    igraph_neimode_t mode, // New type
+    igraph_real_t damping,
+    const igraph_vector_t *weights,
+    igraph_arpack_options_t *options) {
     return igraph_personalized_pagerank(graph, algo, vector, value, vids,
                                         directed, damping, NULL, weights,
                                         options);
@@ -353,12 +360,14 @@ igraph_error_t igraph_pagerank(const igraph_t *graph, igraph_pagerank_algo_t alg
  */
 
 igraph_error_t igraph_personalized_pagerank_vs(const igraph_t *graph,
-                                    igraph_pagerank_algo_t algo, igraph_vector_t *vector,
-                                    igraph_real_t *value, const igraph_vs_t vids,
-                                    igraph_bool_t directed, igraph_real_t damping,
-                                    igraph_vs_t reset_vids,
-                                    const igraph_vector_t *weights,
-                                    igraph_arpack_options_t *options) {
+    igraph_pagerank_algo_t algo,
+    igraph_vector_t *vector,
+    igraph_real_t *value,
+    const igraph_vs_t vids,
+    igraph_neimode_t mode, // New type
+    igraph_real_t damping,
+    const igraph_vector_t *weights,
+    igraph_arpack_options_t *options) {
     igraph_vector_t reset;
     igraph_vit_t vit;
 
